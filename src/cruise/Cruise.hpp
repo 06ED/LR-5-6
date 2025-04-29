@@ -4,9 +4,15 @@
 #include "../travel_package/TravelPackage.hpp"
 
 class Cruise final : public TravelPackage {
+    string shipName;
 public:
-  Cruise();
-  ~Cruise();
+  void book() override {
+    // Implementation for booking a cruise
+  }
+
+  void generateItinerary() override {
+    // Implementation for generating an itinerary for a cruise
+  }
 };
 
 #endif

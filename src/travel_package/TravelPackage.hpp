@@ -29,14 +29,14 @@ public:
   TravelPackage(int packageId = 0)
       : packageId(packageId), price(0), booked(false) {}
 
-  TravelPackage(int packageId, int price, bool booked)
+  TravelPackage(const int packageId, const int price, const bool booked)
       : packageId(packageId), price(price), booked(booked) {}
 
-  virtual ~TravelPackage() {}
+  virtual ~TravelPackage() {};
 
-  virtual void book();
+  virtual void book() = 0;
 
-  virtual void generateItinerary();
+  virtual void generateItinerary() = 0;
 
   bool validate() const { return price > 0; }
 
@@ -46,7 +46,7 @@ public:
 
   friend ostream &operator<<(ostream &os, const TravelPackage &package);
 
-  friend istream &operator>>(std::istream &is, TravelPackage &package);
+  friend istream &operator>>(istream &is, TravelPackage &package);
 };
 
 #endif
