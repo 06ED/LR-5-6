@@ -11,7 +11,7 @@ using namespace std;
 enum class ActivityType { TRACKING, DIVING };
 
 class AdventureTour : public TravelPackage {
-  unique_ptr<ActivityType> activityType;
+  ActivityType activityType;
   unique_ptr<vector<ItinerarySegment>> itinerary;
   bool safetyBriefing;
   int difficultyLevel;
@@ -19,18 +19,18 @@ class AdventureTour : public TravelPackage {
 public:
   AdventureTour(ActivityType activityType = ActivityType::DIVING,
                 bool safetyBriefing = false, int difficultyLevel = 2)
-      : activityType(make_unique<ActivityType>(activityType)),
-        difficultyLevel(difficultyLevel), safetyBriefing(safetyBriefing) {}
+      : activityType(activityType), difficultyLevel(difficultyLevel),
+        safetyBriefing(safetyBriefing) {}
 
-  void setActivityType(ActivityType *activityType) {
-    this->activityType.reset(activityType);
+  void setActivityType(ActivityType &activityType) {
+    this->activityType = activityType;
   }
 
   void setDifficultyLevel(int difficultyLevel) {
     this->difficultyLevel = difficultyLevel;
   }
 
-  ActivityType *getActivityType() const { return activityType.get(); }
+  ActivityType getActivityType() const { return activityType; }
 
   int getDifficultyLevel() const { return difficultyLevel; }
 

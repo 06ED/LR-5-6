@@ -29,6 +29,9 @@ public:
   TravelPackage(int packageId = 0)
       : packageId(packageId), price(0), booked(false) {}
 
+  TravelPackage(TravelPackage &other)
+      : packageId(other.packageId), price(other.price), booked(other.booked) {}
+
   TravelPackage(const int packageId, const int price, const bool booked)
       : packageId(packageId), price(price), booked(booked) {}
 

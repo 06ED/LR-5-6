@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <cctype>
 #include <iostream>
 #include <string>
 
@@ -27,6 +29,8 @@ inline void parse_bool(const string &question, bool &input) {
 
   while (true) {
     getline(cin, raw);
+    transform(raw.begin(), raw.end(), raw.begin(),
+              [](unsigned char symbol) { return tolower(symbol); });
 
     if (raw == "y") {
       input = true;
