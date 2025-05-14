@@ -7,10 +7,10 @@ class DiscountSystem {
 protected:
   DiscountSystem(int sale = 20) : sale(sale) {}
 
-  virtual int generate_sale() = 0;
+  virtual int generateSale() = 0;
 
 public:
-  int get_sale() const { return sale; }
+  int getSale() const { return sale; }
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../utils/input_utils.h"
+#include "../../utils/input_utils.h"
 #include "TravelPackage.hpp"
 
 using namespace std;

@@ -29,19 +29,19 @@ public:
   TravelPackage(int packageId = 0)
       : packageId(packageId), price(0), booked(false) {}
 
-  TravelPackage(TravelPackage &other)
+  TravelPackage(const TravelPackage &other)
       : packageId(other.packageId), price(other.price), booked(other.booked) {}
 
   TravelPackage(const int packageId, const int price, const bool booked)
       : packageId(packageId), price(price), booked(booked) {}
 
-  virtual ~TravelPackage() {};
+  virtual ~TravelPackage() {}
 
   virtual void book() = 0;
 
   virtual void generateItinerary() = 0;
 
-  bool validate() const { return price > 0; }
+  bool validate() const noexcept { return price > 0; }
 
   bool operator==(const TravelPackage &other) const {
     return packageId == other.packageId;

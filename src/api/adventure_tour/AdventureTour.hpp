@@ -22,6 +22,12 @@ public:
       : activityType(activityType), difficultyLevel(difficultyLevel),
         safetyBriefing(safetyBriefing) {}
 
+  AdventureTour(const AdventureTour &other)
+      : activityType(other.activityType),
+        itinerary(make_unique<vector<ItinerarySegment>>(*other.itinerary)),
+        safetyBriefing(other.safetyBriefing),
+        difficultyLevel(other.difficultyLevel), TravelPackage(other) {}
+
   void setActivityType(ActivityType &activityType) {
     this->activityType = activityType;
   }
@@ -38,7 +44,7 @@ public:
 
   void book() override { setIsBooked(true); }
 
-  bool validate() const {
+  bool validate() const noexcept {
     return difficultyLevel <= 3 && TravelPackage::validate();
   }
 
@@ -49,6 +55,10 @@ public:
   }
 
   void generateItinerary() override;
+
+  friend ostream &operator<<(ostream &os, const AdventureTour &tour);
+
+  friend istream &operator>>(istream &is, AdventureTour &tour);
 };
 
 #endif

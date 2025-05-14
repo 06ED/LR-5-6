@@ -1,5 +1,6 @@
 #include "Cruise.hpp"
-#include "../utils/input_utils.h"
+#include "../../utils/input_utils.h"
+
 #include <memory>
 
 void Cruise::generateItinerary() {

@@ -14,8 +14,8 @@ class Cruise final : public TravelPackage {
   CabinType cabinType;
 
 public:
-  Cruise(const string &shipName) : shipName(shipName) {}
-  Cruise(Cruise &other)
+  Cruise(const string &shipName = "Titanic") : shipName(shipName) {}
+  Cruise(const Cruise &other)
       : shipName(other.shipName),
         ports(make_unique<vector<string>>(*other.ports.get())),
         cabinType(other.cabinType), TravelPackage(other) {}
@@ -29,7 +29,7 @@ public:
 
   void generateItinerary() override;
 
-  bool validate() const { return ports.get()->size() > 3; }
+  bool validate() const noexcept { return ports.get()->size() > 3; }
 
   void upgradeCabin(CabinType cabinType = CabinType::LUXE) {
     this->cabinType = cabinType;
