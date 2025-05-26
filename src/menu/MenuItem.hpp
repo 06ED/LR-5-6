@@ -5,25 +5,27 @@
 #include "../api/travel_package/TravelPackage.hpp"
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
-typedef std::function<void(std::map<TourType, std::vector<TravelPackage>> *)>
-    MenuCallback;
+typedef std::function<void(std::map<TourType, std::vector<unique_ptr<TravelPackage> > > *)> MenuCallback;
 
 class MenuItem {
-  std::string title;
-  MenuCallback callback;
+    std::string title;
+    MenuCallback callback;
 
 public:
-  MenuItem(const std::string &title, const MenuCallback &callback)
-      : title(title), callback(callback) {}
+    MenuItem(std::string title, MenuCallback callback)
+        : title(std::move(title)), callback(std::move(callback)) {
+    }
 
-  std::string getTitle() const { return title; }
+    [[nodiscard]] std::string getTitle() const { return title; }
 
-  MenuCallback getCallback() { return callback; }
+    MenuCallback getCallback() { return callback; }
 
-  static std::vector<MenuItem> getMenu();
+    static std::vector<MenuItem> getMenu();
 };
 
 #endif

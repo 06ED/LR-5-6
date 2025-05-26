@@ -11,54 +11,52 @@ using namespace std;
 enum class ActivityType { TRACKING, DIVING };
 
 class AdventureTour : public TravelPackage {
-  ActivityType activityType;
-  unique_ptr<vector<ItinerarySegment>> itinerary;
-  bool safetyBriefing;
-  int difficultyLevel;
+    ActivityType activityType;
+    unique_ptr<vector<ItinerarySegment> > itinerary;
+    bool safetyBriefing;
+    int difficultyLevel;
 
 public:
-  AdventureTour(ActivityType activityType = ActivityType::DIVING,
-                bool safetyBriefing = false, int difficultyLevel = 2)
-      : activityType(activityType), difficultyLevel(difficultyLevel),
-        safetyBriefing(safetyBriefing) {}
+    explicit AdventureTour(
+        const ActivityType activityType = ActivityType::DIVING,
+        const bool safetyBriefing = false,
+        const int difficultyLevel = 2
+    ): activityType(activityType),
+       itinerary(make_unique<vector<ItinerarySegment> >()),
+       safetyBriefing(safetyBriefing),
+       difficultyLevel(difficultyLevel) {
+    }
 
-  AdventureTour(const AdventureTour &other)
-      : activityType(other.activityType),
-        itinerary(make_unique<vector<ItinerarySegment>>(*other.itinerary)),
-        safetyBriefing(other.safetyBriefing),
-        difficultyLevel(other.difficultyLevel), TravelPackage(other) {}
+    AdventureTour(const AdventureTour &other)
+        : TravelPackage(other),
+          activityType(other.activityType),
+          itinerary(make_unique<vector<ItinerarySegment> >(*other.itinerary)),
+          safetyBriefing(other.safetyBriefing), difficultyLevel(other.difficultyLevel) {
+    }
 
-  void setActivityType(ActivityType &activityType) {
-    this->activityType = activityType;
-  }
+    void setActivityType(const ActivityType &activityType) { this->activityType = activityType; }
 
-  void setDifficultyLevel(int difficultyLevel) {
-    this->difficultyLevel = difficultyLevel;
-  }
+    void setDifficultyLevel(const int difficultyLevel) { this->difficultyLevel = difficultyLevel; }
 
-  ActivityType getActivityType() const { return activityType; }
+    [[nodiscard]] ActivityType getActivityType() const { return activityType; }
 
-  int getDifficultyLevel() const { return difficultyLevel; }
+    [[nodiscard]] int getDifficultyLevel() const { return difficultyLevel; }
 
-  vector<ItinerarySegment> *getItinerary() const { return itinerary.get(); }
+    [[nodiscard]] vector<ItinerarySegment> &getItinerary() const { return *itinerary; }
 
-  void book() override { setIsBooked(true); }
+    void book() override { setIsBooked(true); }
 
-  bool validate() const noexcept {
-    return difficultyLevel <= 3 && TravelPackage::validate();
-  }
+    [[nodiscard]] bool validate() const noexcept override { return difficultyLevel <= 3 && TravelPackage::validate(); }
 
-  void addSafetyBriefing() { safetyBriefing = true; }
+    void addSafetyBriefing() { safetyBriefing = true; }
 
-  void operator+=(ItinerarySegment segment) {
-    itinerary.get()->push_back(segment);
-  }
+    void operator+=(const ItinerarySegment &segment) const { itinerary->push_back(segment); }
 
-  void generateItinerary() override;
+    void generateItinerary() override;
 
-  friend ostream &operator<<(ostream &os, const AdventureTour &tour);
+    friend ostream &operator<<(ostream &os, const AdventureTour &tour);
 
-  friend istream &operator>>(istream &is, AdventureTour &tour);
+    friend istream &operator>>(istream &is, AdventureTour &tour);
 };
 
 #endif

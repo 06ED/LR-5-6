@@ -1,55 +1,54 @@
 #ifndef TRAVEL_PACKAGE_H
 #define TRAVEL_PACKAGE_H
 
-#include <istream>
 #include <ostream>
 
 using namespace std;
 
 class TravelPackage {
 protected:
-  int packageId;
-  int price;
-  bool booked;
+    int packageId;
+    int price;
+    bool booked;
 
 public:
-  void setPackageId(int packageId) { this->packageId = packageId; }
+    explicit TravelPackage(const int packageId = 0)
+        : packageId(packageId), price(0), booked(false) {
+    }
 
-  void setPrice(int price) { this->price = price; }
+    TravelPackage(const TravelPackage &other) = default;
 
-  void setIsBooked(bool booked) { this->booked = booked; }
+    TravelPackage(const int packageId, const int price, const bool booked)
+        : packageId(packageId), price(price), booked(booked) {
+    }
 
-  int getPackageId() const { return packageId; }
+    virtual ~TravelPackage() = default;
 
-  int getPrice() const { return price; }
+    void setPackageId(const int packageId) { this->packageId = packageId; }
 
-  bool isBooked() const { return booked; }
+    void setPrice(const int price) { this->price = price; }
 
-public:
-  TravelPackage(int packageId = 0)
-      : packageId(packageId), price(0), booked(false) {}
+    void setIsBooked(const bool booked) { this->booked = booked; }
 
-  TravelPackage(const TravelPackage &other)
-      : packageId(other.packageId), price(other.price), booked(other.booked) {}
+    [[nodiscard]] int getPackageId() const { return packageId; }
 
-  TravelPackage(const int packageId, const int price, const bool booked)
-      : packageId(packageId), price(price), booked(booked) {}
+    [[nodiscard]] int getPrice() const { return price; }
 
-  virtual ~TravelPackage() {}
+    [[nodiscard]] bool isBooked() const { return booked; }
 
-  virtual void book() = 0;
+    virtual void book() = 0;
 
-  virtual void generateItinerary() = 0;
+    virtual void generateItinerary() = 0;
 
-  bool validate() const noexcept { return price > 0; }
+    [[nodiscard]] virtual bool validate() const noexcept { return price > 0; }
 
-  bool operator==(const TravelPackage &other) const {
-    return packageId == other.packageId;
-  }
+    bool operator==(const TravelPackage &other) const {
+        return packageId == other.packageId;
+    }
 
-  friend ostream &operator<<(ostream &os, const TravelPackage &package);
+    friend ostream &operator<<(ostream &os, const TravelPackage &package);
 
-  friend istream &operator>>(istream &is, TravelPackage &package);
+    friend istream &operator>>(istream &is, TravelPackage &package);
 };
 
-#endif
+#endif // TRAVEL_PACKAGE_H

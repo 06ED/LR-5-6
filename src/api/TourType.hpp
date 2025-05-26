@@ -3,4 +3,4 @@
 
 enum class TourType { ADVENTURE, CRUISE, CUSTOM };
 
-#endif
+#endif // TOUR_TYPE_H

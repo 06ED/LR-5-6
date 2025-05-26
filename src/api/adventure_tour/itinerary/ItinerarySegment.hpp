@@ -2,19 +2,20 @@
 #define ITINERARY_SEGMENT_HPP
 
 #include <string>
-
-using namespace std;
+#include <utility>
 
 class ItinerarySegment final {
-  string name;
-  string description;
+    std::string name;
+    std::string description;
 
 public:
-  ItinerarySegment(const string &name, const string &description)
-      : name(name), description(description) {}
+    ItinerarySegment(std::string name, std::string description)
+        : name(std::move(name)), description(std::move(description)) {
+    }
 
-  string getName() const { return name; }
-  string getDescription() const { return description; }
+    [[nodiscard]] std::string getName() const { return name; }
+
+    [[nodiscard]] std::string getDescription() const { return description; }
 };
 
-#endif
+#endif // ITINERARY_SEGMENT_HPP
