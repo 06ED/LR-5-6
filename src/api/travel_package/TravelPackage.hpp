@@ -40,6 +40,10 @@ public:
 
     virtual void generateItinerary() = 0;
 
+    [[nodiscard]] virtual string output() const;
+
+    virtual void input();
+
     [[nodiscard]] virtual bool validate() const noexcept { return price > 0; }
 
     bool operator==(const TravelPackage &other) const {

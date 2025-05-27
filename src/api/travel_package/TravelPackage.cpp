@@ -6,23 +6,32 @@
 using namespace std;
 
 ostream &operator<<(ostream &os, const TravelPackage &package) {
-  os << "TravelPackage(" << package.packageId << ", " << package.price << "$, "
-     << (package.booked ? "booked" : "not booked") << ")";
-  return os;
+    os << package.output();
+    return os;
 }
 
 istream &operator>>(istream &is, TravelPackage &package) {
-  int packageId;
-  int price;
-  bool isBooked;
+    package.input();
+    package.generateItinerary();
 
-  parse_int("Enter package id: ", packageId);
-  parse_int("Enter price: ", price);
-  parse_bool("Is this package booked?", isBooked);
+    return is;
+}
 
-  package.setPrice(price);
-  package.setPackageId(packageId);
-  package.setIsBooked(isBooked);
+string TravelPackage::output() const {
+    return "TravelPackage(" + std::to_string(packageId) + ", " + std::to_string(price) + "$, " + (
+               booked ? "booked" : "not booked") + ")";
+}
 
-  return is;
+void TravelPackage::input() {
+    int packageId;
+    int price;
+    bool isBooked;
+
+    parse_int("Enter package id: ", packageId);
+    parse_int("Enter price: ", price);
+    parse_bool("Is this package booked? ", isBooked);
+
+    setPrice(price);
+    setPackageId(packageId);
+    setIsBooked(isBooked);
 }

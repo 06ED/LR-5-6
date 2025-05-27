@@ -49,13 +49,13 @@ public:
 
     [[nodiscard]] bool validate() const noexcept override;
 
+    [[nodiscard]] string output() const override;
+
+    void input() override;
+
     void addPersonalGuide() { hasGuide = true; }
 
     [[nodiscard]] bool isVip() const { return vip; }
-
-    friend ostream &operator<<(ostream &os, const CustomTour &tour);
-
-    friend istream &operator>>(istream &is, CustomTour &tour);
 };
 
 #endif

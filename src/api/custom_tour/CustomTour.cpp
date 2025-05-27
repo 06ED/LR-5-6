@@ -16,7 +16,29 @@ void CustomTour::book() {
 
 int CustomTour::generateSale() { return vip ? getSale() : 0; }
 
-bool CustomTour::validate() const noexcept { return customActivities->size() <= 5 && price > 1000; }
+bool CustomTour::validate() const noexcept {
+    return customActivities->size() <= 5 && price > 1000 && TravelPackage::validate();
+}
+
+string CustomTour::output() const {
+    return "CustomTour("
+           + std::to_string(packageId) + ", "
+           + std::to_string(price) + "$, "
+           + (booked ? "Booked" : "Not booked") + ", "
+           + (vip ? "Vip" : "Default")
+           + (hasGuide ? ", With guide" : "")
+           + ")";
+}
+
+void CustomTour::input() {
+    TravelPackage::input();
+
+    bool isVip;
+    parse_bool("Is this package vip? ", isVip);
+
+    vip = isVip;
+}
+
 
 void CustomTour::generateItinerary() {
     cout << "Generating itinerary..." << endl;
@@ -33,34 +55,4 @@ void CustomTour::generateItinerary() {
             break;
         }
     }
-}
-
-ostream &operator<<(ostream &os, const CustomTour &tour) {
-    os << "CustomTour("
-            << tour.packageId << ", "
-            << tour.price << "$, "
-            << (tour.booked ? "Booked" : "Not booked") << ", "
-            << (tour.vip ? "Vip" : "Default")
-            << (tour.hasGuide ? ", With guide" : "")
-            << ")";
-    return os;
-}
-
-istream &operator>>(istream &is, CustomTour &tour) {
-    int packageId;
-    int price;
-    bool isBooked;
-    bool isVip;
-
-    parse_int("Enter package id: ", packageId);
-    parse_int("Enter price: ", price);
-    parse_bool("Is this package booked? ", isBooked);
-    parse_bool("Is this package vip? ", isVip);
-
-    tour.setPrice(price);
-    tour.setPackageId(packageId);
-    tour.setIsBooked(isBooked);
-    tour.vip = isVip;
-
-    return is;
 }

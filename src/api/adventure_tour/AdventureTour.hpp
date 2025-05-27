@@ -48,15 +48,15 @@ public:
 
     [[nodiscard]] bool validate() const noexcept override { return difficultyLevel <= 3 && TravelPackage::validate(); }
 
+    [[nodiscard]] string output() const override;
+
+    void input() override;
+
     void addSafetyBriefing() { safetyBriefing = true; }
 
     void operator+=(const ItinerarySegment &segment) const { itinerary->push_back(segment); }
 
     void generateItinerary() override;
-
-    friend ostream &operator<<(ostream &os, const AdventureTour &tour);
-
-    friend istream &operator>>(istream &is, AdventureTour &tour);
 };
 
 #endif

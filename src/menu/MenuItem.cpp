@@ -35,15 +35,20 @@ void createCruse(std::map<TourType, std::vector<unique_ptr<TravelPackage> > > *t
 
 void getAllTours(std::map<TourType, std::vector<unique_ptr<TravelPackage> > > *tours) {
     for (const auto &tour: *tours | std::views::values | std::views::join) {
-        if (const auto adventure = dynamic_cast<AdventureTour *>(tour.get())) {
-            cout << *adventure;
-        } else if (const auto cruise = dynamic_cast<Cruise *>(tour.get())) {
-            cout << *cruise;
-        } else if (const auto custom = dynamic_cast<CustomTour *>(tour.get())) {
-            cout << *custom;
-        } else {
-            cout << *tour;
-        }
+        cout << *tour << endl;
+    }
+}
+
+void validateAll(std::map<TourType, std::vector<unique_ptr<TravelPackage> > > *tours) {
+    for (const auto &tour: *tours | std::views::values | std::views::join) {
+        cout << tour->getPackageId() << ": " << (tour->validate() ? "Validated" : "Invalidated") << endl;
+    }
+}
+
+void bookAll(std::map<TourType, std::vector<unique_ptr<TravelPackage> > > *tours) {
+    for (const auto &tour: *tours | std::views::values | std::views::join) {
+        tour->book();
+        cout << *tour << " successfully booked" << endl;
     }
 }
 
@@ -53,5 +58,7 @@ std::vector<MenuItem> MenuItem::getMenu() {
         {"Create new adventure tour", createAdventureTour},
         {"Create new cruise", createCruse},
         {"Get all tours to demonstrate polymorphism", getAllTours},
+        {"Validate all tours", validateAll},
+        {"Book all tours", bookAll}
     };
 }

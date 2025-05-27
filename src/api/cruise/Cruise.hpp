@@ -47,13 +47,13 @@ public:
 
     [[nodiscard]] bool validate() const noexcept override { return ports->size() > 3 && TravelPackage::validate(); }
 
+    [[nodiscard]] string output() const override;
+
+    void input() override;
+
     void upgradeCabin(const CabinType cabinType = CabinType::LUXE) { this->cabinType = cabinType; }
 
     Cruise operator+(const Cruise &other);
-
-    friend ostream &operator<<(ostream &os, const Cruise &cruise);
-
-    friend istream &operator>>(istream &is, Cruise &cruise);
 };
 
 #endif

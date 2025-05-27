@@ -5,6 +5,35 @@
 
 using namespace std;
 
+string AdventureTour::output() const {
+    return "AdventureTour(" + std::to_string(packageId) + ", " + std::to_string(price) + "$, "
+           + (booked ? "Booked" : "Not booked")
+           + ", Activity: " + (activityType == ActivityType::DIVING
+                                   ? "Diving"
+                                   : "Tracking")
+           + ", Difficulty: " + std::to_string(difficultyLevel)
+           + ", Safety Briefing: " + (safetyBriefing ? "Yes" : "No")
+           + ")";
+}
+
+void AdventureTour::input() {
+    TravelPackage::input();
+
+    bool isDiving;
+    int difficulty;
+    bool safetyBriefing;
+
+    parse_bool("Is is diving activity? ", isDiving);
+    parse_int("Enter difficulty (1-5): ", difficulty);
+    parse_bool("Do you need safety briefing? ", safetyBriefing);
+
+    setDifficultyLevel(difficulty);
+    setActivityType(isDiving ? ActivityType::DIVING : ActivityType::TRACKING);
+    if (safetyBriefing) {
+        addSafetyBriefing();
+    }
+}
+
 void AdventureTour::generateItinerary() {
     cout << "Generating itinerary..." << endl;
 
@@ -22,43 +51,4 @@ void AdventureTour::generateItinerary() {
             break;
         }
     }
-}
-
-ostream &operator<<(ostream &os, const AdventureTour &tour) {
-    os << "AdventureTour(" << tour.packageId << ", " << tour.price << "$, "
-            << (tour.booked ? "Booked" : "Not booked")
-            << ", Activity: " << (tour.activityType == ActivityType::DIVING
-                                      ? "Diving"
-                                      : "Tracking")
-            << ", Difficulty: " << tour.difficultyLevel
-            << ", Safety Briefing: " << (tour.safetyBriefing ? "Yes" : "No")
-            << ")";
-    return os;
-}
-
-istream &operator>>(istream &is, AdventureTour &tour) {
-    int packageId;
-    int price;
-    bool isBooked;
-    bool isDiving;
-    int difficulty;
-    bool safetyBriefing;
-
-    parse_int("Enter package id: ", packageId);
-    parse_int("Enter price: ", price);
-    parse_bool("Is this package booked? ", isBooked);
-    parse_bool("Is is diving activity? ", isDiving);
-    parse_int("Enter difficulty (1-5): ", difficulty);
-    parse_bool("Do you need safety briefing? ", safetyBriefing);
-
-    tour.setPrice(price);
-    tour.setPackageId(packageId);
-    tour.setIsBooked(isBooked);
-    tour.setDifficultyLevel(difficulty);
-    tour.setActivityType(isDiving ? ActivityType::DIVING : ActivityType::TRACKING);
-    if (safetyBriefing) {
-        tour.addSafetyBriefing();
-    }
-
-    return is;
 }
